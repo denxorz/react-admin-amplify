@@ -107,6 +107,7 @@ export class DataProvider {
     const queryData = (
       await this.graphql(query, {
         ...queryVariables,
+		filter: filter,
         limit: perPage,
         nextToken,
       })
