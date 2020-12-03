@@ -14,8 +14,7 @@ export class Filter {
     const queryName = Object.keys(filter)[0];
 
     if (!queries[queryName]) {
-      console.log(`Could not find query ${queryName}`);
-      throw new Error("Data provider error");
+      return null;
     }
 
     return queryName;
