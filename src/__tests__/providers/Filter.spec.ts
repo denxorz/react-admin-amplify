@@ -12,18 +12,6 @@ test("get query name with empty filter", () => {
   expect(queryName).toBeNull();
 });
 
-test("get query name with invalid filter", () => {
-  const filter = {
-    unknownQuery: {
-      field: "value",
-    },
-  };
-
-  expect(() => {
-    Filter.getQueryName(queries, filter);
-  }).toThrow();
-});
-
 test("get query name with valid filter", () => {
   const filter = {
     ordersByProduct: {

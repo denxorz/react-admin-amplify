@@ -128,7 +128,7 @@ test("get list with filter and sorting", async () => {
         },
       },
     },
-    sortField: "sortFieldValue",
+    sortField: "resourcesByField",
     sortDirection: "DESC",
     limit: 10,
     nextToken: null,
