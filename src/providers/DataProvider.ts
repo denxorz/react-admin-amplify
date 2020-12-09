@@ -105,7 +105,7 @@ export class DataProvider {
     }
 
     // Adds filter if requested
-    if(Object.keys(params.filter).length > 0){
+    if (Object.keys(params.filter).length > 0) {
       queryVariables["filter"] = params.filter;
     }
 
