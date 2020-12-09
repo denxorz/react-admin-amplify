@@ -42,11 +42,11 @@ test("get list", async () => {
   const call = <Array<unknown>>calls[0];
 
   expect(call[0]).toBe("listResourcesQuery");
-  expect(call[1]).toEqual({ 
+  expect(call[1]).toEqual({
     limit: 10,
     nextToken: null,
     sortDirection: "ASC",
-    sortField: "id"
+    sortField: "id",
   });
 
   expect(result).toEqual({ data: [], total: 0 });
@@ -77,11 +77,11 @@ test("get list with more than one page", async () => {
   const call = <Array<unknown>>calls[0];
 
   expect(call[0]).toBe("listResourcesQuery");
-  expect(call[1]).toEqual({ 
+  expect(call[1]).toEqual({
     limit: 10,
     nextToken: null,
     sortDirection: "ASC",
-    sortField: "id"
+    sortField: "id",
   });
 
   expect(result).toEqual({ data: [], total: 1 });
