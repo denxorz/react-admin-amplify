@@ -110,14 +110,14 @@ test("get list with filter and sorting", async () => {
 
   expect(call[0]).toBe("resourcesByFieldQuery");
   expect(call[1]).toEqual({
-	filter: Object {
-      resourcesByField: Object {
+	filter: {
+      resourcesByField: {
         field: "fieldValue",
-        sortField: Object {
+        sortField: {
           eq: "sortFieldValue",
-           },
-         },
-       },
+        },
+      },
+    },
     sortField: "sortFieldValue",
     sortDirection: "DESC",
     limit: 10,
@@ -213,8 +213,8 @@ test("get many reference", async () => {
 
   expect(call[0]).toBe("referencesByResourceIdQuery");
   expect(call[1]).toEqual({
-    filter: Object {
-      referencesByResourceId: Object {
+    filter: {
+      referencesByResourceId: {
         resourceId: "resource1",
       },
     },
