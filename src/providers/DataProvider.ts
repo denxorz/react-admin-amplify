@@ -101,13 +101,13 @@ export class DataProvider {
     // Adds sorting if requested
     if (Object.keys(params.sort).length > 0) {
       queryVariables["sortDirection"] = params.sort.order;
-	  queryVariables["sortField"] = params.sort.field;
+      queryVariables["sortField"] = params.sort.field;
     }
-	
-	// Adds filter if requested
-	if(Object.keys(params.filter).length > 0){
-		queryVariables["filter"] = params.filter;
-	}
+
+    // Adds filter if requested
+    if(Object.keys(params.filter).length > 0){
+      queryVariables["filter"] = params.filter;
+    }
 
     // Executes the query
     const queryData = (
