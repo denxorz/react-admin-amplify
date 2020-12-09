@@ -42,7 +42,7 @@ test("get list", async () => {
   const call = <Array<unknown>>calls[0];
 
   expect(call[0]).toBe("listResourcesQuery");
-  expect(call[1]).toEqual({ limit: 10, nextToken: null });
+  expect(call[1]).toEqual({ limit: 10, nextToken: null, sortDirection: "ASC", sortField: "id"});
 
   expect(result).toEqual({ data: [], total: 0 });
 });
@@ -72,7 +72,7 @@ test("get list with more than one page", async () => {
   const call = <Array<unknown>>calls[0];
 
   expect(call[0]).toBe("listResourcesQuery");
-  expect(call[1]).toEqual({ limit: 10, nextToken: null });
+  expect(call[1]).toEqual({ limit: 10, nextToken: null, sortDirection: "ASC", sortField: "id" });
 
   expect(result).toEqual({ data: [], total: 1 });
 });
@@ -110,10 +110,15 @@ test("get list with filter and sorting", async () => {
 
   expect(call[0]).toBe("resourcesByFieldQuery");
   expect(call[1]).toEqual({
-    field: "fieldValue",
-    sortField: {
-      eq: "sortFieldValue",
-    },
+	filter: Object {
+      resourcesByField: Object {
+        field: "fieldValue",
+        sortField: Object {
+          eq: "sortFieldValue",
+           },
+         },
+       },
+    sortField: "sortFieldValue",
     sortDirection: "DESC",
     limit: 10,
     nextToken: null,
@@ -208,8 +213,13 @@ test("get many reference", async () => {
 
   expect(call[0]).toBe("referencesByResourceIdQuery");
   expect(call[1]).toEqual({
-    resourceId: "resource1",
+    filter: Object {
+      referencesByResourceId: Object {
+        resourceId: "resource1",
+      },
+    },
     sortDirection: "DESC",
+	sortField: "referencesByResourceId",
     limit: 10,
     nextToken: null,
   });
