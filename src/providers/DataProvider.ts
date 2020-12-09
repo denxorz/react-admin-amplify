@@ -66,7 +66,7 @@ export class DataProvider {
     const { filter } = params;
 
     let queryName = Filter.getQueryName(this.queries, filter);
-    let queryVariables = Filter.getQueryVariables(filter);
+    let queryVariables = {};
 
     if (!queryName || !queryVariables) {
       // Default list query without filter
@@ -99,15 +99,20 @@ export class DataProvider {
     }
 
     // Adds sorting if requested
-    if (params.sort.field === queryName) {
+    if (Object.keys(params.sort).length > 0) {
       queryVariables["sortDirection"] = params.sort.order;
+	  queryVariables["sortField"] = params.sort.field;
     }
+	
+	// Adds filter if requested
+	if(Object.keys(params.filter).length > 0){
+		queryVariables["filter"] = params.filter;
+	}
 
     // Executes the query
     const queryData = (
       await this.graphql(query, {
         ...queryVariables,
-		filter: filter,
         limit: perPage,
         nextToken,
       })
