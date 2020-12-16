@@ -11,7 +11,7 @@
   "jsnext:main": "build/index.es.js",
   "scripts": {
     "build": "rollup -c",
-	"prepare": "npm run build",
+    "prepare": "echo PREPARE && npm run build && echo OK",
     "lint": "eslint .",
     "test": "jest --coverage"
   },
