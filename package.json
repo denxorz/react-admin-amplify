@@ -11,7 +11,7 @@
   "jsnext:main": "build/index.es.js",
   "scripts": {
     "build": "rollup -c",
-	"prepare": "npm run build",
+	"postinstall": "cd ./node_modules/react-admin-amplify && npm install && npm run build"
     "lint": "eslint .",
     "test": "jest --coverage"
   },
