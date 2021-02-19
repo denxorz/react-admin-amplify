@@ -19,6 +19,7 @@ import {
   UpdateParams,
   UpdateResult,
 } from "ra-core";
+import { AdminQueries } from "./AdminQueries";
 import { Filter } from "./Filter";
 import { Pagination } from "./Pagination";
 
@@ -31,38 +32,48 @@ export interface DataProviderOptions {
   authMode?: GRAPHQL_AUTH_MODE;
   storageBucket?: string;
   storageRegion?: string;
+  enableAdminQueries?: boolean;
 }
 
-const defaultOptions: DataProviderOptions = {
+const defaultOptions = {
   authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+  enableAdminQueries: false,
 };
 
 export class DataProvider {
+  public queries: Record<string, string>;
+  public mutations: Record<string, string>;
+
+  public authMode: GRAPHQL_AUTH_MODE;
+  public enableAdminQueries: boolean;
+
   static storageBucket?: string;
   static storageRegion?: string;
 
-  public queries: Record<string, string>;
-  public mutations: Record<string, string>;
-  public authMode: GRAPHQL_AUTH_MODE;
-
-  public constructor(
-    operations: Operations,
-    options: DataProviderOptions = defaultOptions
-  ) {
-    const optionsBag = { ...defaultOptions, ...options };
-
+  public constructor(operations: Operations, options?: DataProviderOptions) {
     this.queries = operations.queries;
     this.mutations = operations.mutations;
-    this.authMode = optionsBag.authMode as GRAPHQL_AUTH_MODE;
 
-    DataProvider.storageBucket = optionsBag.storageBucket;
-    DataProvider.storageRegion = optionsBag.storageRegion;
+    this.authMode = options?.authMode || defaultOptions.authMode;
+    this.enableAdminQueries =
+      options?.enableAdminQueries || defaultOptions.enableAdminQueries;
+
+    DataProvider.storageBucket = options?.storageBucket;
+    DataProvider.storageRegion = options?.storageRegion;
   }
 
   public getList = async <RecordType>(
     resource: string,
     params: GetListParams
   ): Promise<GetListResult<RecordType>> => {
+    if (this.enableAdminQueries && resource === "cognitoUsers") {
+      return AdminQueries.listCognitoUsers(params);
+    }
+
+    if (this.enableAdminQueries && resource === "cognitoGroups") {
+      return AdminQueries.listCognitoGroups(params);
+    }
+
     const { filter } = params;
 
     let queryName = Filter.getQueryName(this.queries, filter);
@@ -137,6 +148,10 @@ export class DataProvider {
     resource: string,
     params: GetOneParams
   ): Promise<GetOneResult<RecordType>> => {
+    if (this.enableAdminQueries && resource === "cognitoUsers") {
+      return AdminQueries.getCognitoUser(params);
+    }
+
     const queryName = this.getQueryName("get", resource);
     const query = this.getQuery(queryName);
 
